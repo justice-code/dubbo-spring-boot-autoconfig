@@ -6,6 +6,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.config.TypedStringValue;
+import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.ManagedMap;
@@ -13,7 +14,6 @@ import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -66,7 +66,15 @@ public class DubboServiceClassPathBeanDefinitionScanner extends ClassPathBeanDef
 
         String[] keyValues = service.parameters();
         ManagedMap parameters = buildParameters(keyValues);
+        if (null != parameters) {
+            serverBuilder.addPropertyValue("parameters", parameters);
+        }
+        AbstractBeanDefinition serviceBean = serverBuilder.getBeanDefinition();
+        registry.registerBeanDefinition(genBeanName(serviceBean), serviceBean);
+    }
 
+    private String genBeanName(AbstractBeanDefinition serviceBean) {
+        return serviceBean.getBeanClassName() + "$service";
     }
 
     private ManagedMap buildParameters(String[] keyValues) {

@@ -23,10 +23,12 @@ public class AutoConfiguredDubboScannerRegistrar implements BeanFactoryAware, Im
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
         List<String> packages = AutoConfigurationPackages.get(beanFactory);
 
-        registerDubboService(packages);
+        registerDubboService(packages, registry);
     }
 
-    private void registerDubboService(List<String> packages) {
-
+    private void registerDubboService(List<String> packages, BeanDefinitionRegistry registry) {
+        DubboServiceClassPathBeanDefinitionScanner scanner = new DubboServiceClassPathBeanDefinitionScanner(registry);
+        scanner.registerFilter();
+        scanner.doScan(packages.toArray(new String[]{}));
     }
 }
