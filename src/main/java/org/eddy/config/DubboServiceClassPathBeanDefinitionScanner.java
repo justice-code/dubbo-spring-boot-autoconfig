@@ -14,6 +14,7 @@ import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -69,6 +70,11 @@ public class DubboServiceClassPathBeanDefinitionScanner extends ClassPathBeanDef
         if (null != parameters) {
             serverBuilder.addPropertyValue("parameters", parameters);
         }
+
+        if (! StringUtils.isEmpty(service.module())) {
+            serverBuilder.addPropertyReference("module", service.module());
+        }
+
         AbstractBeanDefinition serviceBean = serverBuilder.getBeanDefinition();
         registry.registerBeanDefinition(genBeanName(serviceBean), serviceBean);
     }
