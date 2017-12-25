@@ -5,12 +5,15 @@ import com.alibaba.dubbo.config.spring.ServiceBean;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
+import org.springframework.beans.factory.config.TypedStringValue;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.ManagedMap;
 import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -61,8 +64,22 @@ public class DubboServiceClassPathBeanDefinitionScanner extends ClassPathBeanDef
             serverBuilder.addPropertyValue("protocols", protocolRuntimeBeanReferences);
         }
 
+        String[] keyValues = service.parameters();
+        ManagedMap parameters = buildParameters(keyValues);
 
+    }
 
+    private ManagedMap buildParameters(String[] keyValues) {
+        if (keyValues.length == 0 || keyValues.length % 2 != 0) {
+            return null;
+        }
+
+        ManagedMap managedMap = new ManagedMap();
+        for (int i = 0; i < keyValues.length; i+=2) {
+            managedMap.put(keyValues[i], new TypedStringValue(keyValues[i + 1], String.class));
+        }
+
+        return managedMap;
     }
 
     private List<RuntimeBeanReference> beanReferences(String[] registryConfigBeanNames) {
