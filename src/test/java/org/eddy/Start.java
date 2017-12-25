@@ -27,6 +27,7 @@ public class Start {
         return registryConfig;
     }
 
+    @Bean
     public ProtocolConfig protocolConfig() {
         ProtocolConfig protocolConfig = new ProtocolConfig();
         protocolConfig.setName("dubbo");
