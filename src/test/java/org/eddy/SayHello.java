@@ -6,6 +6,6 @@ import com.alibaba.dubbo.config.annotation.Service;
 public class SayHello implements Say{
     @Override
     public String say() {
-        return "hello";
+        return "hello, my reference";
     }
 }
