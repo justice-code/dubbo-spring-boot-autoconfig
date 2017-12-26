@@ -10,13 +10,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringBootTest(classes = Start.class)
 public class TestSay {
 
-    @Reference
     private Say say;
-
 
     @Test
     public void test() {
         System.out.println(say.say());
     }
 
+    @Reference
+    public void setSay(Say say) {
+        this.say = say;
+    }
 }
