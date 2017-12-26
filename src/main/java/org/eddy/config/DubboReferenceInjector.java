@@ -169,12 +169,10 @@ public class DubboReferenceInjector extends InstantiationAwareBeanPostProcessorA
         }
 
         private Class findInterfaceClass() {
-            if (super.isField && ((Field)super.member).getType().isInterface()) {
+            if (super.isField) {
                 return ((Field)super.member).getType();
-            } else if(super.isField) {
-                return ((Field)super.member).getType().getInterfaces()[0];
             } else {
-                return super.pd.getPropertyType().isInterface() ? super.pd.getPropertyType() : super.pd.getPropertyType().getInterfaces()[0];
+                return super.pd.getPropertyType();
             }
         }
     }
