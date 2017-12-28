@@ -3,6 +3,7 @@ package org.eddy.config;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackages;
@@ -30,7 +31,7 @@ public class AutoConfiguredDubboScannerRegistrar implements BeanFactoryAware, Im
     }
 
     private void registerDubboReference(BeanDefinitionRegistry registry) {
-        registry.registerBeanDefinition("dubboReferenceInjector", BeanDefinitionBuilder.rootBeanDefinition(DubboReferenceInjector.class).getBeanDefinition());
+        registry.registerBeanDefinition("dubboReferenceInjector", BeanDefinitionBuilder.rootBeanDefinition(DubboReferenceInjector.class).setRole(BeanDefinition.ROLE_INFRASTRUCTURE).getBeanDefinition());
     }
 
     private void registerDubboService(List<String> packages, BeanDefinitionRegistry registry) {

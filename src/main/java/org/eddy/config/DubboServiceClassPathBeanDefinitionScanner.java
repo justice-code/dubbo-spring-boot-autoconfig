@@ -49,6 +49,7 @@ public class DubboServiceClassPathBeanDefinitionScanner extends ClassPathBeanDef
         Service service = beanClass.getAnnotation(Service.class);
 
         BeanDefinitionBuilder serverBuilder = BeanDefinitionBuilder.rootBeanDefinition(ServiceBean.class)
+                .setRole(BeanDefinition.ROLE_APPLICATION)
                 .addConstructorArgValue(service)
                 .addPropertyReference("ref", beanDefinitionHolder.getBeanName())
                 .addPropertyValue("interfaceClass", service.interfaceClass() == void.class ? beanClass.getInterfaces()[0] : service.interfaceClass());
