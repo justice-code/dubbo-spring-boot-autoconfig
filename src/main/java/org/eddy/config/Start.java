@@ -1,15 +1,11 @@
-package org.eddy;
+package org.eddy.config;
 
 import com.alibaba.dubbo.config.ApplicationConfig;
 import com.alibaba.dubbo.config.ProtocolConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
-import jdk.nashorn.internal.ir.annotations.Reference;
-import org.eddy.config.EnableDubbo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
-import javax.annotation.PostConstruct;
 
 @SpringBootApplication
 @EnableDubbo
